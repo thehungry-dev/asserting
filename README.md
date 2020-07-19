@@ -19,23 +19,23 @@ func TestAssert(t *testing.T) {
 
 func TestAssertPanic(t *testing.T) {
 	Assert.Panic(t, func() {
-    panic("A panic")
-  }) // Test is successful
+		panic("A panic")
+	}) // Test is successful
 }
 
 func TestAssertPanicMsg(t *testing.T) {
-  panicFn := func() { panic("A panic") }
+	panicFn := func() { panic("A panic") }
 	Assert.Panic(t, panicFn, func(msg interface{}) bool {
-    prose, ok := msg.(string)
-    return ok && prose == "A panic"
-  }) // Test is successful
+		prose, ok := msg.(string)
+		return ok && prose == "A panic"
+	}) // Test is successful
 }
 
 func TestAssertDifferentPanicMsg(t *testing.T) {
-  panicFn := func() { panic("A panic") }
+	panicFn := func() { panic("A panic") }
 	Assert.Panic(t, panicFn, func(msg interface{}) bool {
-    prose, ok := msg.(string)
-    return ok && prose == "Other panic"
-  }) // Test fails
+		prose, ok := msg.(string)
+		return ok && prose == "Other panic"
+	}) // Test fails
 }
 ```
