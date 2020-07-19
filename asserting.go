@@ -1,6 +1,8 @@
 // Package asserting provides macros to verify output, well-suited for use in `go test`
 package asserting
 
+import "github.com/thehungry-dev/asserting/rejection"
+
 // TestController provides functionality to interrupt and log during a test execution. It's usually `testing.T`
 type TestController interface {
 	Helper()
@@ -24,11 +26,11 @@ func (assert Assertion) PanicMsg(t TestController, do func(), assertMsg func(int
 
 		err := recover()
 
-		assert(t, panicked, "Panic expected")
+		assert(t, panicked, rejection.PanicExpected)
 
 		if panicked {
 			result := assertMsg(err)
-			assert(t, result, "Invalid panic message")
+			assert(t, result, rejection.InvalidPanicMsg)
 		}
 	}()
 	do()
@@ -48,7 +50,7 @@ func any(_ interface{}) bool { return true }
 func assertf(t TestController, result bool, msgArgs ...interface{}) {
 	t.Helper()
 
-	msg := "Assertion failed"
+	msg := rejection.FalseAssertion
 	var args []interface{}
 
 	switch len(msgArgs) {
